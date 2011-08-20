@@ -1,0 +1,84 @@
+Nickname noisetor01
+ORPort 443
+DirPort 80
+
+DataDirectory /var/lib/tor
+PidFile /var/run/tor/tor.pid
+Log notice file /var/log/tor/notices.log
+
+RelayBandwidthRate 15 MBytes 
+RelayBandwidthBurst 16 MBytes
+
+# MyFamily 
+
+NumCPUs 2 
+ContactInfo tor.noisebridge.net <admin@tor.noisebridge.net>
+
+CellStatistics 1
+DirReqStatistics 1
+EntryStatistics 1
+ExitPortStatistics 1
+ExtraInfoStatistics 1
+
+HidServDirectoryV2 1
+SocksPort 0
+SocksPolicy reject *
+
+RunAsDaemon 1
+RefuseUnknownExits 1
+
+# https://trac.torproject.org/projects/tor/wiki/TheOnionRouter/ReducedExitPolicy
+# 03.02.2011
+ExitPolicy accept *:20-23    # FTP, SSH, telnet
+ExitPolicy accept *:43       # WHOIS
+ExitPolicy accept *:53       # DNS
+ExitPolicy accept *:79-81    # finger, HTTP
+ExitPolicy accept *:88       # kerberos
+ExitPolicy accept *:110      # POP3
+ExitPolicy accept *:143      # IMAP
+ExitPolicy accept *:194      # IRC
+ExitPolicy accept *:220      # IMAP3
+ExitPolicy accept *:443      # HTTPS
+ExitPolicy accept *:464-465  # kpasswd, SMTP over SSL
+ExitPolicy accept *:543-544   
+ExitPolicy accept *:563      # NNTP over SSL
+ExitPolicy accept *:587      # SMTP
+ExitPolicy accept *:706      
+ExitPolicy accept *:749      # kerberos 
+ExitPolicy accept *:873      # rsync
+ExitPolicy accept *:902-904
+ExitPolicy accept *:981
+ExitPolicy accept *:989-995  # FTP over SSL, Netnews Administration System, telnets, IMAP over SSL, ircs, POP3 over SSL
+ExitPolicy accept *:1194     # openvpn
+ExitPolicy accept *:1220     # QT Server Admin
+ExitPolicy accept *:1293     # PKT-KRB-IPSec
+ExitPolicy accept *:1500     # VLSI License Manager
+ExitPolicy accept *:1723     # PPTP
+ExitPolicy accept *:1863     # MSNP
+ExitPolicy accept *:2082-2083 # Radius
+ExitPolicy accept *:2086-2087 # GNUnet, ELI
+ExitPolicy accept *:2095-2096 # NBX
+ExitPolicy accept *:3128     # SQUID
+ExitPolicy accept *:3389     # MS WBT
+ExitPolicy accept *:3690     # SVN
+ExitPolicy accept *:4321     # RWHOIS
+ExitPolicy accept *:4643      
+ExitPolicy accept *:5050     # MMCC
+ExitPolicy accept *:5190     # ICQ
+ExitPolicy accept *:5222-5223 # XMPP, XMPP over SSL
+ExitPolicy accept *:5900     # VNC
+ExitPolicy accept *:6666-6667 # IRC
+ExitPolicy accept *:6679      
+ExitPolicy accept *:6697      
+ExitPolicy accept *:8000    # iRDMI
+ExitPolicy accept *:8008    
+ExitPolicy accept *:8080    # HTTP Proxies
+ExitPolicy accept *:8087-8088 # Simplify Media SPP Protocol, Radan HTTP
+ExitPolicy accept *:8333    # Bitcoin
+ExitPolicy accept *:8443    # PCsync HTTPS
+ExitPolicy accept *:8888    # HTTP Proxies, NewsEDGE
+ExitPolicy accept *:9418    # git
+ExitPolicy accept *:9999    # distinct
+ExitPolicy accept *:10000   # Network Data Management Protocol
+ExitPolicy accept *:19638   
+ExitPolicy reject *:*
