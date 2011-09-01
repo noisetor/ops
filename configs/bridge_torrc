@@ -1,0 +1,30 @@
+Nickname noisetorbridge01
+ORPort 443
+
+DataDirectory /var/lib/tor
+PidFile /var/run/tor/tor.pid
+Log notice file /var/log/tor/notices.log
+
+RelayBandwidthRate 1 MBytes 
+RelayBandwidthBurst 2 MBytes
+
+# MyFamily 
+
+NumCPUs 2 
+ContactInfo tor.noisebridge.net <admin@tor.noisebridge.net>
+
+CellStatistics 1
+DirReqStatistics 1
+EntryStatistics 1
+ExitPortStatistics 1
+ExtraInfoStatistics 1
+
+HidServDirectoryV2 1
+SocksPort 0
+SocksPolicy reject *
+
+RunAsDaemon 1
+RefuseUnknownExits 1
+
+BridgeRelay 1
+Exitpolicy reject *:*
