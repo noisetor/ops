@@ -1,4 +1,4 @@
-#! /bin/bash -x
+#! /bin/bash
 
 ### BEGIN INIT INFO
 # Provides:          tor
@@ -73,7 +73,7 @@ set_one_up() {
 	sed -i "s/ORPort 443/ORPort $RPORT/g" /etc/tor/torrc.${N}
 	sed -i "s/DirPort 80/DirPort $DIRPORT/g" /etc/tor/torrc.${N}
 	sed -i "s/DataDirectory \/var\/lib\/tor/DataDirectory \/var\/lib\/tor${N}/g" /etc/tor/torrc.${N}
-	sed -i "s/PidFile \/var\/lib\/tor/PidFile \/var\/run\/tor\/tor${N}.pid/g" /etc/tor/torrc.${N}
+	sed -i "s/PidFile \/var\/run\/tor\/tor.pid/PidFile \/var\/run\/tor\/tor${N}.pid/g" /etc/tor/torrc.${N}
 }
 
 wait_for_deaddaemon () {
@@ -154,7 +154,6 @@ case "$1" in
 		else 
 			ARGS="-f /etc/tor/torrc.${i}"
 			check_config $i
-			/usr/sbin/tor -f /etc/tor/torrc.${i}
 			start-stop-daemon --start --quiet --oknodo \
 				--pidfile $TORPID \
 				$NICE \
@@ -169,13 +168,11 @@ case "$1" in
 	for i in $(seq 1 $NUMPROCS); do
 		echo -n "Stopping process $i: ";
 		TORPID="$TORPIDDIR/tor${i}.pid";
-		if test ! -f $TORPID -o -z "$pid"; then
-			
-			pid=`cat $TORPID 2>/dev/null` || true
+		if test ! -f $TORPID; then
 			echo "not running (there is no $TORPID)."
 			exit 0
 		fi
-		exit $ERROR;
+		pid=`cat $TORPID 2>/dev/null` || true
 
 		if start-stop-daemon --stop --signal INT --quiet --pidfile $TORPID --exec $DAEMON; then
 			wait_for_deaddaemon $pid
