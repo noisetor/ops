@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-echo "deb     http://deb.torproject.org/torproject.org maverick main" > /etc/apt/sources.list.d/tor.list
+echo "deb     http://deb.torproject.org/torproject.org $(lsb_release  -cs) main" > /etc/apt/sources.list.d/tor.list
 gpg --keyserver keys.gnupg.net --recv 886DDD89
 gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
 apt-get update
@@ -22,3 +22,6 @@ for i in $(seq 1 $CPUS); do
 	sed -i "s/DataDirectory \/var\/lib\/tor/DataDirectory $DATADIR/g" /etc/tor/torrc.${i}
 	sed -i "s/PidFile \/var\/lib\/tor/PidFile $PIDFILE/g" /etc/tor/torrc.${i}
 done
+
+cp /opt/ops/bin/init-tor /etc/init.d/tor
+/etc/init.d/tor start
