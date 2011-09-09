@@ -9,7 +9,7 @@ Log notice file /var/log/tor/notices.log
 RelayBandwidthRate 15 MBytes 
 RelayBandwidthBurst 16 MBytes
 
-# MyFamily 
+MyFamily Noisebridge
 
 NumCPUs 2 
 ContactInfo tor.noisebridge.net <admin@tor.noisebridge.net>

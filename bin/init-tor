@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash 
 
 ### BEGIN INIT INFO
 # Provides:          tor
@@ -26,6 +26,23 @@ DEFAULTSFILE=/etc/default/$NAME
 WAITFORDAEMON=60
 ARGS=""
 NUMPROCS=$(grep "^processor	" /proc/cpuinfo | wc -l | awk '{print $1}')
+TOTAL_BANDWIDTH="500";
+PROC_BANDWIDTH=$(($TOTAL_BANDWIDTH / $NUMPROCS));
+
+PORTS[1]="443";
+PORTS[2]="993";
+PORTS[3]="995";
+PORTS[4]="465";
+
+ALPH[1]="a";
+ALPH[2]="b";
+ALPH[3]="c";
+ALPH[4]="d";
+ALPH[5]="e";
+ALPH[6]="f";
+ALPH[7]="g";
+ALPH[8]="h";
+
 # Let's try to figure our some sane defaults:
 if [ -r /proc/sys/fs/file-max ]; then
 	system_max=`cat /proc/sys/fs/file-max`
@@ -63,17 +80,21 @@ fi
 
 set_one_up() {
 	N=$1;
-	RPORT=$((442 + $N));
+	RPORT=${PORTS[$1]}
 	DIRPORT=$((79 + $N))
 	DATADIR="/var/lib/tor${N}"
 	PIDFILE="/var/run/tor/tor${N}.pid"
+	ME="$(uname -n | cut -d. -f1 | sed "s/-//g")${ALPH[$N]}";
 	mkdir -p $DATADIR;
 	chown -R debian-tor $DATADIR;
-	cp /opt/ops/configs/torrc /etc/tor/torrc.${i}
-	sed -i "s/ORPort 443/ORPort $RPORT/g" /etc/tor/torrc.${N}
-	sed -i "s/DirPort 80/DirPort $DIRPORT/g" /etc/tor/torrc.${N}
-	sed -i "s/DataDirectory \/var\/lib\/tor/DataDirectory \/var\/lib\/tor${N}/g" /etc/tor/torrc.${N}
-	sed -i "s/PidFile \/var\/run\/tor\/tor.pid/PidFile \/var\/run\/tor\/tor${N}.pid/g" /etc/tor/torrc.${N}
+	cp /opt/ops/configs/torrc /etc/tor/torrc.${i};
+	sed -i "s/^Nickname.*/Nickname $ME/g" /etc/tor/torrc.${N};
+	sed -i "s/RelayBandwidthRate 15 MBytes/RelayBandwidthRate $PROC_BANDWIDTH MBytes/g" /etc/tor/torrc.${N};
+	sed -i "s/RelayBandwidthBurst 16 MBytes/RelayBandwidthRate $PROC_BANDWIDTH MBytes/g" /etc/tor/torrc.${N};
+	sed -i "s/ORPort 443/ORPort $RPORT/g" /etc/tor/torrc.${N};
+	sed -i "s/DirPort 80/DirPort $DIRPORT/g" /etc/tor/torrc.${N};
+	sed -i "s/DataDirectory \/var\/lib\/tor/DataDirectory \/var\/lib\/tor${N}/g" /etc/tor/torrc.${N};
+	sed -i "s/PidFile \/var\/run\/tor\/tor.pid/PidFile \/var\/run\/tor\/tor${N}.pid/g" /etc/tor/torrc.${N};
 }
 
 wait_for_deaddaemon () {
@@ -184,7 +205,7 @@ case "$1" in
 		else
 			echo "FAILED ($DAEMON died: process $pid not running; or permission denied)."
 		fi
-		done
+	done
 	;;
   reload|force-reload)
 	for i in $(seq 1 $NUMPROCS); do
