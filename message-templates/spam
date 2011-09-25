@@ -1,0 +1,36 @@
+Hello,
+
+The IP address in question is a Tor exit node. See
+https://www.torproject.org/overview.html
+
+As you can see from the overview page, the Tor network is designed to
+make tracing of users impossible. The Tor network is run by some 2500
+volunteers who use the free software provided by the Tor Project to
+run Tor routers.  Client connections are routed through multiple
+relays, and are multiplexed together on the connections between
+relays. The system does not record logs of client connections or
+previous hops.
+
+This is because the Tor network is a censorship resistance, privacy,
+and anonymity system used by whistle blowers, journalists, Chinese
+dissidents skirting the Great Firewall, abuse victims, stalker
+targets, the US military, and law enforcement, just to name a few. See
+https://www.torproject.org/about/torusers.html.en for more info.
+
+Unfortunately, some people misuse the network. However, compared to
+the rate of legitimate use (the IP range in question processes
+hundreds of megabits of traffic per second), abuse complaints are
+rare.
+https://www.torproject.org/docs/faq-abuse.html.en
+
+We would prefer that you not block this IP, because blocking Tor IPs
+means that users with a legitimate need for anonymity will not be able
+to use your service.  However, you may wish to implement additional
+checks such as CAPTCHA for Tor users.
+
+The Tor project provides an automated DNSEL for you to query to flag
+messages coming from Tor nodes as requiring special review.
+https://www.torproject.org/tordnsel/
+
+Thank you for your attention,
+- the Noisebridge Tor administration team, admin@noisetor.net
